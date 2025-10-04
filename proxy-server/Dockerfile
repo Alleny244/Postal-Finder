@@ -1,0 +1,20 @@
+FROM python:3.11-slim
+
+
+WORKDIR /app
+
+
+COPY proxy-server/requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+COPY . .
+
+
+WORKDIR /app/proxy-server
+
+
+EXPOSE $PORT
+
+CMD ["sh", "-c", "uvicorn apps:app --host 0.0.0.0 --port $PORT"]
