@@ -1,67 +1,59 @@
-const findBtn = document.getElementById("find-location");
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("retry-btn").addEventListener("click", fetchLocation);
+  fetchLocation();
+});
 
-findBtn.addEventListener("click", () => {
+async function fetchLocation() {
   const loading = document.getElementById("loading");
   const errorBox = document.getElementById("error");
-  const result = document.getElementById("result");
+  const locationCard = document.getElementById("location-card");
 
-  // Hide error and result properly using classes
-  errorBox.classList.remove("show");
-  result.classList.remove("show");
-
-  // Show loading
-  loading.classList.add("show");
+  loading.classList.remove("hidden");
+  errorBox.classList.add("hidden");
+  locationCard.classList.add("hidden");
 
   navigator.geolocation.getCurrentPosition(
     async (pos) => {
       const { latitude, longitude } = pos.coords;
 
       try {
-        const res = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=xml&lat=${latitude}&lon=${longitude}`
-        );
-        const xmlText = await res.text();
+        const res = await fetch(`http://127.0.0.1:8000/reverse-geocode?lat=${latitude}&lng=${longitude}`);
+        const data = await res.json();
+const firstResult = data.results[0];
+        if (!firstResult) {
+          showError("No location data found.");
+          return;
+        }
 
-        // Parse XML
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+        const components = firstResult.address_components || [];
 
-        // Extract info
-        const postcode = xmlDoc.querySelector("postcode")?.textContent || "Not found";
-        const city = xmlDoc.querySelector("city")?.textContent || 
-                     xmlDoc.querySelector("town")?.textContent || 
-                     xmlDoc.querySelector("village")?.textContent || 
-                     "Unknown";
-        const state = xmlDoc.querySelector("state")?.textContent || "Unknown";
-        const country = xmlDoc.querySelector("country")?.textContent || "Unknown";
-        const road = xmlDoc.querySelector("road")?.textContent || "-";
+        const formattedAddress = firstResult.formatted_address || "Not found";
+        const postalCode = components.find(c => c.types.includes("postal_code"))?.long_name || "Not found";
+        const country = components.find(c => c.types.includes("country"))?.long_name || "Not found";
+        const state = components.find(c => c.types.includes("administrative_area_level_1"))?.long_name || "Not found";
+        const region = components.find(c => c.types.includes("administrative_area_level_2"))?.long_name || "Not found";
+        const city = components.find(c => c.types.includes("locality"))?.long_name 
+                   || components.find(c => c.types.includes("administrative_area_level_3"))?.long_name 
+                   || "Not found";
 
-    
 
-        // Update DOM
-        document.getElementById("postal-code").textContent = postcode;
-        document.getElementById("location-name").textContent = city;
-        document.getElementById("country").textContent = country;
+        document.getElementById("address").textContent = formattedAddress;
+        document.getElementById("postal-code").textContent = postalCode;
         document.getElementById("coordinates").textContent = `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
 
-        // Hide loading & show result using class for CSS
-        loading.classList.remove("show");
-        result.classList.add("show");
+        loading.classList.add("hidden");
+        locationCard.classList.remove("hidden");
       } catch (e) {
-        showError("Failed to fetch postal code. Please try again.");
+        showError("Failed to fetch location data.");
       }
     },
-    (err) => {
-      showError("Unable to access your location. Please enable location permission.");
-    }
+    () => showError("Unable to access your location. Please enable location permission."),
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 } 
   );
-});
+}
 
 function showError(message) {
-  const loading = document.getElementById("loading");
-  const errorBox = document.getElementById("error");
-
-  loading.classList.remove("show");
-  errorBox.querySelector("#error-message").textContent = message;
-  errorBox.classList.add("show");
+  document.getElementById("loading").classList.add("hidden");
+  document.getElementById("error").classList.remove("hidden");
+  document.getElementById("error-message").textContent = message;
 }
