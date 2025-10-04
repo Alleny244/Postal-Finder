@@ -1,0 +1,73 @@
+ <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Location Finder</title>
+    <meta name="description" content="Get your current location with postal code" />
+    <link rel="stylesheet" href="../css/popup.css" />
+ 
+ <body>
+    <div class="container">
+      <!-- Loading State -->
+      <div id="loading" class="card loading-state">
+        <div class="spinner"></div>
+        <div>
+          <p class="text-sm font-medium">Getting your location...</p>
+          <p class="text-xs">This may take a moment</p>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div id="error" class="card error-state hidden">
+        <div class="error-icon">⚠</div>
+        <div>
+          <p class="text-sm font-medium">Unable to get location</p>
+          <p class="text-xs" id="error-message"></p>
+        </div>
+        <button class="btn" id="retry-btn">Try Again</button>
+      </div>
+
+      <!-- Location Card -->
+      <div id="location-card" class="card hidden">
+        <div class="location-header">
+          <div class="location-icon">📍</div>
+          <div>
+            <h2 class="location-title">Current Location</h2>
+            <p class="location-subtitle">Live location data</p>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-icon">🧭</div>
+            <div class="info-content">
+              <div class="info-label">Address</div>
+              <div class="info-value" id="address">-</div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">✉️</div>
+            <div class="info-content">
+              <div class="info-label">Postal Code</div>
+              <div class="postal-code" id="postal-code">-</div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">🌍</div>
+            <div class="info-content">
+              <div class="info-label">Coordinates</div>
+              <div class="coordinates info-value" id="coordinates">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+        <script src="../scripts/script.js"></script>
+  </body>
+</html>
