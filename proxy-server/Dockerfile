@@ -11,9 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-
-WORKDIR /app/proxy-server
-
+ARG PORT
 
 EXPOSE $PORT
 
