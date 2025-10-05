@@ -20,7 +20,7 @@
 ## Demo
 
 Watch the extension in action:  
-[Screen Recording](https://www.loom.com/share/1d86a9f843b440a2be2272f1c35ed6f4)
+[Screen Recording](https://github.com/Alleny244/Postal-Finder/raw/main/demo.gif)
 
 ---
 
@@ -40,7 +40,7 @@ Watch the extension in action:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/postal-finder.git
+git clone https://github.com/Alleny244/Postal-Finder.git
 cd postal-finder/proxy-server
 ```
 
