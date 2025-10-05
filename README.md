@@ -20,7 +20,7 @@
 ## Demo
 
 Watch the extension in action:  
-[Screen Recording](https://github.com/Alleny244/Postal-Finder/raw/main/demo.gif)
+![Screen Recording](https://raw.githubusercontent.com/Alleny244/Postal-Finder/main/demo.gif)
 
 ---
 
