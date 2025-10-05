@@ -14,7 +14,7 @@
     "128": "images/icons/icon-128.png"
   },
   "host_permissions": [
-  "http://localhost:8000/*"
+  "https://postal-finder-production.up.railway.app/*"
 ]
 
 

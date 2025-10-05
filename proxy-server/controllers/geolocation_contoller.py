@@ -11,4 +11,4 @@ class GeolocationController:
             response = await client.get(url)
             if response.status_code != 200:
                 raise HTTPException(status_code=500, detail="Failed to fetch server")
-            return response
+            return response.json()

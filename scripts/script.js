@@ -17,7 +17,7 @@ async function fetchLocation() {
       const { latitude, longitude } = pos.coords;
 
       try {
-        const res = await fetch(`http://127.0.0.1:8000/reverse-geocode?lat=${latitude}&lng=${longitude}`);
+        const res = await fetch(`https://postal-finder-production.up.railway.app/reverse-geocode?lat=${latitude}&lng=${longitude}`);
         const data = await res.json();
 const firstResult = data.results[0];
         if (!firstResult) {
